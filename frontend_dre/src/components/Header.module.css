@@ -1,0 +1,71 @@
+/* src/components/Header/Header.module.css */
+.header {
+    background-color: #ffffff;
+    padding: 16px 24px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #3498db;
+    text-decoration: none;
+}
+
+.navLinks {
+    display: none; /* Escondido no mobile */
+    gap: 20px;
+}
+
+.navLinks a {
+    text-decoration: none;
+    color: #555;
+    font-weight: bold;
+    padding-bottom: 5px;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+}
+
+.navLinks a:hover,
+.navLinks a.active {
+    color: #3498db;
+    border-bottom-color: #3498db;
+}
+
+.userMenu {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.userName {
+    display: none; /* Escondido no mobile para economizar espaço */
+    font-weight: bold;
+}
+
+.logoutButton {
+    padding: 8px 12px;
+    font-size: 14px;
+    color: #fff;
+    background-color: #e74c3c;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Estilos para telas maiores */
+@media (min-width: 768px) {
+    .navLinks {
+        display: flex; /* Aparece no desktop */
+    }
+
+    .userName {
+        display: block; /* Aparece no desktop */
+    }
+}

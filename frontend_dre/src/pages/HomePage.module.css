@@ -1,0 +1,110 @@
+/* Wrapper para gráfico e últimas transações lado a lado no desktop */
+.dashboardRow {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+@media (min-width: 900px) {
+    .dashboardRow {
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 32px;
+    }
+    .dashboardChart {
+        flex: 2;
+        min-width: 0;
+    }
+    .dashboardTransactions {
+        flex: 1;
+        min-width: 260px;
+        max-width: 340px;
+    }
+}
+/* src/pages/HomePage.module.css */
+
+/* === ESTILOS PARA MOBILE (PADRÃO) === */
+/* Por padrão, o container ocupa a tela toda */
+.container {
+    width: 100%;
+    min-height: 100vh; /* Ocupa a altura inteira da tela */
+    padding: 20px;
+    background-color: #ffffff;
+    /* Sem bordas ou sombras no mobile, para parecer um app nativo */
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.title { margin: 0; color: #333; }
+
+
+.summaryCards {
+    display: grid;
+    grid-template-columns: 1fr; /* Uma coluna no mobile */
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.card {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+}
+
+.card h3 { margin-top: 0; font-size: 16px; color: #6c757d; }
+.card p { margin-bottom: 0; font-size: 24px; font-weight: bold; }
+
+.income { color: #2ecc71; }
+.expense { color: #e74c3c; }
+
+.addButton {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    font-size: 18px;
+    color: #fff;
+    background-color: #3498db;
+    border: none;
+    border-radius: 8px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.botaoSair {
+    padding: 10px 15px;
+    font-size: 14px;
+    color: #fff;
+    background-color: #e74c3c;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.transactionsSection { margin-top: 30px; }
+.transactionList { list-style: none; padding: 0; }
+.transactionItem { display: flex; justify-content: space-between; padding: 15px; border-bottom: 1px solid #eee; }
+
+
+/* === ESTILOS PARA TELAS MAIORES (DESKTOP) === */
+/* A 'media query' só ativa esses estilos se a tela for maior que 768px */
+@media (min-width: 768px) {
+    .container {
+        width: 100%;
+        max-width: auto;
+        min-height: none; /* Altura automática no desktop */
+        border-radius: 8px; /* Bordas arredondadas só no desktop */
+        box-shadow: 0 4px 15px rgba(0,0,0,0.15); /* Sombra só no desktop */
+    }
+
+    .summaryCards {
+        /* Três colunas no desktop */
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
