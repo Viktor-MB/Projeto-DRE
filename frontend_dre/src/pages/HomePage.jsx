@@ -1,10 +1,9 @@
-// src/pages/HomePage.jsx
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
 import styles from './HomePage.module.css';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
-// REMOVEMOS A IMPORTAÇÃO DO HEADER DAQUI - Isso é intencional, o Layout o renderiza.
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line } from 'recharts';
+
 
 const formatCurrency = (value) => {
     return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
@@ -19,30 +18,41 @@ export default function HomePage() {
         { name: 'Despesas', valor: summary.total_expense }
     ];
     const [recentTransactions, setRecentTransactions] = useState([]);
+    const [monthlyData, setMonthlyData] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
+            // Resumo do mês
             const { data: summaryData, error: summaryError } = await supabase.rpc('get_monthly_summary');
             if (summaryError) {
                 console.error('Erro ao buscar resumo:', summaryError);
-                setSummary({ total_income: 0, total_expense: 0 }); // Garante valores padrão em caso de erro
+                setSummary({ total_income: 0, total_expense: 0 });
             } else if (summaryData) {
                 setSummary(summaryData[0]);
             }
 
+            // Últimas transações
             const { data: transactionsData, error: transactionsError } = await supabase
                 .from('transactions')
                 .select('*')
                 .order('transaction_date', { ascending: false })
                 .limit(5);
-
             if (transactionsError) {
                 console.error('Erro ao buscar transações recentes:', transactionsError);
-                setRecentTransactions([]); // Garante array vazio em caso de erro
+                setRecentTransactions([]);
             } else {
                 setRecentTransactions(transactionsData || []);
+            }
+
+            // Dados mensais para gráfico de linha
+            const { data: monthly, error: monthlyError } = await supabase.rpc('get_income_expense_by_month');
+            if (monthlyError) {
+                console.error('Erro ao buscar dados mensais:', monthlyError);
+                setMonthlyData([]);
+            } else {
+                setMonthlyData(monthly || []);
             }
             setLoading(false);
         };
@@ -53,9 +63,21 @@ export default function HomePage() {
 
     if (loading) return <div className="page-center"><p>Carregando dashboard...</p></div>;
 
+    // Dados para o gráfico de pizza
+    const pieData = [
+        { name: 'Receitas', value: summary.total_income },
+        { name: 'Despesas', value: summary.total_expense }
+    ];
+    // Cores suaves e modernas
+    const pieColors = ['#6ee7b7', '#fca5a5'];
+
     return (
         <div className="page-center">
             <div className={styles.container}>
+                {/* Logo e título mobile first */}
+                <div className={styles.logoHeader}>
+                    <h1 className={styles.mobileTitle}>Dashboard Financeiro</h1>
+                </div>
                 {/* === INÍCIO: CARDS DE RESUMO (KPIs) === */}
                 <section className={styles.summaryCards}>
                     <div className={styles.card}>
@@ -75,44 +97,95 @@ export default function HomePage() {
                 </section>
                 {/* === FIM: CARDS DE RESUMO (KPIs) === */}
                 
+
                 {/* Botão de Adicionar Nova Transação */}
                 <Link to="/transactions" className={styles.addButton}>
                     Adicionar Nova Transação
                 </Link>
 
-                                {/* === GRÁFICO + ÚLTIMAS TRANSAÇÕES === */}
-                                <div className={styles.dashboardRow}>
-                                    <section className={styles.dashboardChart}>
-                                        <h2 style={{textAlign: 'center'}}>Análise Financeira</h2>
-                                        <ResponsiveContainer width="100%" height={250}>
-                                            <BarChart data={chartData} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
-                                                <CartesianGrid strokeDasharray="3 3" />
-                                                <XAxis dataKey="name" />
-                                                <YAxis />
-                                                <Tooltip />
-                                                <Legend />
-                                                <Bar dataKey="valor" fill="#3498db" radius={[8, 8, 0, 0]} />
-                                            </BarChart>
-                                        </ResponsiveContainer>
-                                    </section>
-                                    <section className={styles.dashboardTransactions}>
-                                        <h2>Últimas Transações</h2>
-                                        <ul className={styles.transactionList}>
-                                            {recentTransactions.length > 0 ? recentTransactions.map(t => (
-                                                <li key={t.id} className={styles.transactionItem}>
-                                                    <span>
-                                                        <strong>{t.description}</strong><br/>
-                                                        <small>{t.category} - {new Date(t.transaction_date).toLocaleDateString()}</small>
-                                                    </span>
-                                                    <strong className={t.type === 'income' ? styles.income : styles.expense}>
-                                                        {t.type === 'expense' && '- '}
-                                                        {formatCurrency(t.amount)}
-                                                    </strong>
-                                                </li>
-                                            )) : <p>Nenhuma transação registrada ainda.</p>}
-                                        </ul>
-                                    </section>
+
+                {/* === GRÁFICOS + ÚLTIMAS TRANSAÇÕES === */}
+                <div className={styles.dashboardRow}>
+                    <section className={styles.dashboardChart}>
+                        <h2 className={styles.sectionTitle}>Análise Financeira</h2>
+                        <div className={styles.chartsWrapper}>
+                            {/* Gráfico de Linha: Receita e Despesa por mês */}
+                            <div className={styles.lineChartBox}>
+                                <ResponsiveContainer width="100%" height={180}>
+                                    <LineChart data={monthlyData} margin={{ top: 10, right: 10, left: 0, bottom: 5 }}>
+                                        <CartesianGrid strokeDasharray="3 3" />
+                                        <XAxis dataKey="month" />
+                                        <YAxis tickFormatter={formatCurrency} />
+                                        <Tooltip formatter={formatCurrency} />
+                                        <Line type="monotone" dataKey="income" stroke="#6ee7b7" name="Receitas" strokeWidth={2} dot={{ r: 3 }} />
+                                        <Line type="monotone" dataKey="expense" stroke="#fca5a5" name="Despesas" strokeWidth={2} dot={{ r: 3 }} />
+                                    </LineChart>
+                                </ResponsiveContainer>
+                            </div>
+                            {/* Gráfico de Barras */}
+                            <div className={styles.barChartBox}>
+                                <ResponsiveContainer width="100%" height={180}>
+                                    <BarChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 5 }}>
+                                        <CartesianGrid strokeDasharray="3 3" />
+                                        <XAxis dataKey="name" />
+                                        <YAxis hide />
+                                        <Tooltip />
+                                        <Bar dataKey="valor" fill="#3498db" radius={[8, 8, 0, 0]} />
+                                    </BarChart>
+                                </ResponsiveContainer>
+                            </div>
+                            {/* Gráfico de Pizza */}
+                            <div className={styles.pieChartBox}>
+                                <ResponsiveContainer width={160} height={160}>
+                                    <PieChart>
+                                        <Pie
+                                            data={pieData}
+                                            dataKey="value"
+                                            nameKey="name"
+                                            cx="50%"
+                                            cy="50%"
+                                            outerRadius={60}
+                                            label={false}
+                                            stroke="#fff"
+                                            strokeWidth={2}
+                                        >
+                                            {pieData.map((entry, idx) => (
+                                                <Cell key={`cell-${idx}`} fill={pieColors[idx % pieColors.length]} />
+                                            ))}
+                                        </Pie>
+                                        <Tooltip />
+                                    </PieChart>
+                                </ResponsiveContainer>
+                                {/* Legenda customizada */}
+                                <div className={styles.pieLegend}>
+                                    {pieData.map((entry, idx) => (
+                                        <span key={entry.name} className={styles.pieLegendItem}>
+                                            <span className={styles.pieLegendColor} style={{ background: pieColors[idx % pieColors.length] }}></span>
+                                            {entry.name}
+                                        </span>
+                                    ))}
                                 </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section className={styles.dashboardTransactions}>
+                        <h2 className={styles.sectionTitle}>Últimas Transações</h2>
+                        <ul className={styles.transactionList}>
+                            {recentTransactions.length > 0 ? recentTransactions.map(t => (
+                                <li key={t.id} className={styles.transactionItem}>
+                                    <span>
+                                        <strong>{t.description}</strong><br/>
+                                        <small>{t.category} - {new Date(t.transaction_date).toLocaleDateString()}</small>
+                                    </span>
+                                    <strong className={t.type === 'income' ? styles.income : styles.expense}>
+                                        {t.type === 'expense' && '- '}
+                                        {formatCurrency(t.amount)}
+                                    </strong>
+                                </li>
+                            )) : <p>Nenhuma transação registrada ainda.</p>}
+                        </ul>
+                    </section>
+                </div>
 
             </div>
         </div>

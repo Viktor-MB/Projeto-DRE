@@ -1,3 +1,73 @@
+.lineChartBox {
+    width: 100%;
+    margin-bottom: 10px;
+}
+.pieLegend {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    margin-top: 10px;
+}
+.pieLegendItem {
+    display: flex;
+    align-items: center;
+    font-size: 0.98rem;
+    color: #444;
+    gap: 6px;
+}
+.pieLegendColor {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: inline-block;
+    border: 1.5px solid #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+}
+/* Logo e header mobile */
+.logoHeader {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+.logoImg {
+    width: 38px;
+    height: 38px;
+}
+.mobileTitle {
+    font-size: 1.4rem;
+    color: #222;
+    font-weight: 700;
+    margin: 0;
+}
+
+/* Section titles */
+.sectionTitle {
+    font-size: 1.15rem;
+    color: #333;
+    margin-bottom: 12px;
+    margin-top: 0;
+    text-align: left;
+}
+
+/* Gráficos lado a lado no mobile */
+.chartsWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-bottom: 10px;
+}
+.barChartBox {
+    width: 100%;
+    min-width: 0;
+}
+.pieChartBox {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 8px;
+}
 /* Wrapper para gráfico e últimas transações lado a lado no desktop */
 .dashboardRow {
     display: flex;
@@ -19,6 +89,19 @@
         flex: 1;
         min-width: 260px;
         max-width: 340px;
+    }
+
+    .chartsWrapper {
+        flex-direction: row;
+        gap: 32px;
+    }
+    .barChartBox {
+        min-width: 220px;
+        width: auto;
+    }
+    .pieChartBox {
+        min-width: 160px;
+        width: auto;
     }
 }
 /* src/pages/HomePage.module.css */
@@ -66,8 +149,8 @@
 .addButton {
     display: block;
     width: 100%;
-    padding: 15px;
-    font-size: 18px;
+    padding: 14px 0;
+    font-size: 17px;
     color: #fff;
     background-color: #3498db;
     border: none;
@@ -75,6 +158,7 @@
     text-align: center;
     text-decoration: none;
     cursor: pointer;
+    margin-bottom: 18px;
 }
 
 .botaoSair {
@@ -90,6 +174,9 @@
 .transactionsSection { margin-top: 30px; }
 .transactionList { list-style: none; padding: 0; }
 .transactionItem { display: flex; justify-content: space-between; padding: 15px; border-bottom: 1px solid #eee; }
+.transactionItem strong {
+    font-size: 1rem;
+}
 
 
 /* === ESTILOS PARA TELAS MAIORES (DESKTOP) === */
