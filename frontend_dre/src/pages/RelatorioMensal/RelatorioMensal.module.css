@@ -1,0 +1,145 @@
+/* src/pages/RelatorioMensal.module.css */
+
+/* --- Estilos Gerais da Página --- */
+.container {
+    width: 100%;
+    max-width: 600px; /* Um pouco mais largo para o relatório */
+    min-height: 100vh;
+    margin: 0 auto;
+    padding: 32px 16px;
+    background: #f4f6f8; /* Fundo um pouco diferente para distinguir */
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.header {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 18px;
+    margin-top: 8px;
+    letter-spacing: -1px;
+    text-align: center;
+}
+
+h2 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #222;
+    margin: 36px 0 12px 0;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 8px;
+}
+
+/* --- Botão de Voltar para Dashboard (estilo mantido) --- */
+.backButtonRow {
+    width: 100%;
+    display: flex;
+    margin-bottom: 18px;
+}
+
+.backButton {
+    display: inline-flex;
+    align-items: center;
+    background: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 7px 18px 7px 12px;
+    font-size: 1rem;
+    font-weight: 500;
+    box-shadow: 0 2px 8px rgba(52, 152, 219, 0.10);
+    cursor: pointer;
+    transition: background 0.18s, box-shadow 0.18s;
+}
+
+.backButton:hover {
+    background: #217dbb;
+    box-shadow: 0 4px 16px rgba(52, 152, 219, 0.13);
+}
+
+.backButtonText {
+    font-size: 1.08rem;
+    font-weight: 500;
+    letter-spacing: -0.5px;
+}
+
+/* --- Seletores de Mês e Ano --- */
+.seletoresRelatorio {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.seletoresRelatorio select {
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  font-size: 1rem;
+  font-family: inherit;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.04);
+}
+
+/* --- Cards de Resumo (KPIs) --- */
+.summaryCards {
+    display: grid;
+    grid-template-columns: 1fr; 
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.card {
+    background-color: #fff;
+    padding: 1.25rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+    text-align: center;
+}
+
+.card h3 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    color: #666;
+    font-weight: 500;
+}
+
+.card p {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+/* --- Histórico de Transações (estilo mantido) --- */
+.transactionList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.transactionItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.04);
+    padding: 14px 12px;
+    margin-bottom: 12px;
+    border-left: 4px solid #bdc3c7; /* Cor neutra para a borda */
+}
+
+/* Cores de Receita e Despesa */
+.income { color: #2ecc71; }
+.expense { color: #e74c3c; }
+
+/* Adiciona a cor na borda do item da lista */
+.transactionItem.incomeBorder {
+    border-left-color: #2ecc71;
+}
+.transactionItem.expenseBorder {
+    border-left-color: #e74c3c;
+}

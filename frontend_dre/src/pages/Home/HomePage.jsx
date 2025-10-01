@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { supabase } from '../supabaseClient';
+import { supabase } from '../../supabaseClient';
 import styles from './HomePage.module.css';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line } from 'recharts';
 
@@ -10,7 +10,6 @@ const formatCurrency = (value) => {
 };
 
 export default function HomePage() {
-    // REMOVEMOS O ESTADO E A BUSCA DO 'profile' DAQUI - Isso é intencional, o Layout o renderiza.
     const [summary, setSummary] = useState({ total_income: 0, total_expense: 0 });
     // Dados para o gráfico de barras
     const chartData = [
@@ -24,6 +23,7 @@ export default function HomePage() {
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
+
             // Resumo do mês
             const { data: summaryData, error: summaryError } = await supabase.rpc('get_monthly_summary');
             if (summaryError) {
@@ -101,6 +101,10 @@ export default function HomePage() {
                 {/* Botão de Adicionar Nova Transação */}
                 <Link to="/transactions" className={styles.addButton}>
                     Adicionar Nova Transação
+                </Link>
+
+                <Link to="/relatorio" className={styles.reportButton}>
+                                    Ver Relatórios Mensais
                 </Link>
 
 

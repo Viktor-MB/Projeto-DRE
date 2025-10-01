@@ -1,0 +1,215 @@
+/* src/pages/HomePage.module.css */
+
+/* === LAYOUT GERAL E CABEÇALHO === */
+.container {
+  width: 100%;
+  min-height: 100vh;
+  padding: 20px;
+  background-color: #f4f6f8; /* Fundo um pouco mais suave */
+}
+
+.logoHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.mobileTitle {
+  font-size: 1.6rem;
+  color: #2c3e50;
+  font-weight: 700;
+  margin: 0;
+}
+
+.sectionTitle {
+  font-size: 1.15rem;
+  color: #333;
+  margin-bottom: 12px;
+  margin-top: 0;
+  text-align: left;
+}
+
+/* === CARDS DE RESUMO (KPIs) === */
+.summaryCards {
+  display: grid;
+  grid-template-columns: 1fr; /* Uma coluna no mobile */
+  gap: 15px;
+  margin-bottom: 24px;
+}
+
+.card {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+}
+
+.card h3 {
+  margin-top: 0;
+  font-size: 16px;
+  color: #6c757d;
+  font-weight: 500;
+}
+
+.card p {
+  margin: 0;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* === BOTÕES DE AÇÃO === */
+.addButton {
+  display: block;
+  width: 100%;
+  padding: 14px 0;
+  font-size: 17px;
+  color: #fff;
+  background-color: #3498db;
+  border: none;
+  border-radius: 8px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  margin-bottom: 10px; /* Reduzido para aproximar do botão de baixo */
+  transition: background-color 0.2s;
+}
+.addButton:hover {
+  background-color: #2980b9;
+}
+
+.reportButton {
+  display: block;
+  width: 100%;
+  padding: 12px 0;
+  margin-bottom: 24px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 600;
+  background-color: transparent;
+  color: #3498db;
+  border: 2px solid #3498db;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.reportButton:hover {
+  background-color: #3498db;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2);
+}
+
+/* === ESTRUTURA DO DASHBOARD (GRÁFICOS E TRANSAÇÕES) === */
+.dashboardRow {
+  display: flex;
+  flex-direction: column; /* Empilhado no mobile */
+  gap: 32px;
+}
+
+.chartsWrapper {
+  display: flex;
+  flex-direction: column; /* Gráficos empilhados no mobile */
+  gap: 24px;
+}
+
+.lineChartBox,
+.barChartBox {
+  width: 100%;
+}
+
+.pieChartBox {
+  width: 100%;
+  display: flex;
+  flex-direction: column; /* Empilha o gráfico, legenda e botão */
+  align-items: center;
+  justify-content: center;
+  gap: 12px; /* Espaçamento interno */
+}
+
+.pieLegend {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+}
+
+.pieLegendItem {
+  display: flex;
+  align-items: center;
+  font-size: 0.98rem;
+  color: #444;
+  gap: 6px;
+}
+
+.pieLegendColor {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: inline-block;
+  border: 1.5px solid #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+}
+
+/* === LISTA DE TRANSAÇÕES === */
+.transactionList {
+  list-style: none;
+  padding: 0;
+}
+
+.transactionItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background-color: #fff;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.transactionItem strong {
+  font-size: 1rem;
+}
+
+/* === CLASSES DE COR === */
+.income { color: #2ecc71; }
+.expense { color: #e74c3c; }
+
+/* === ESTILOS PARA TELAS MAIORES (DESKTOP) === */
+@media (min-width: 900px) {
+  .container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    min-height: auto;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    padding: 32px;
+  }
+
+  .summaryCards {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .dashboardRow {
+    flex-direction: row; /* Lado a lado no desktop */
+    align-items: flex-start;
+  }
+
+  .dashboardChart {
+    flex: 2; /* Gráficos ocupam mais espaço */
+    min-width: 0;
+  }
+
+  .dashboardTransactions {
+    flex: 1; /* Transações ocupam menos espaço */
+    min-width: 300px;
+    max-width: 380px;
+  }
+
+  .chartsWrapper {
+    flex-direction: row; /* Gráficos lado a lado */
+    align-items: flex-end;
+  }
+}

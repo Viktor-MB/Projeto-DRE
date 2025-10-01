@@ -5,10 +5,11 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { supabase } from './supabaseClient';
 
 import Layout from './components/Layout/Layout.jsx';
-import LoginPage from './pages/LoginPage';
-import SignUpPage from './pages/SignUpPage';
-import HomePage from './pages/HomePage';
-import TransactionsPage from './pages/TransactionsPage';
+import LoginPage from './pages/PaginasAutenticacao/LoginPage.jsx';
+import SignUpPage from './pages/PaginasAutenticacao/SignUpPage.jsx';
+import HomePage from './pages/Home/HomePage.jsx';
+import TransactionsPage from './pages/Transactions/TransactionsPage.jsx';
+import RelatorioMensal from './pages/RelatorioMensal/RelatorioMensal.jsx';
 
 /**
  * O controle da sessão agora foi movido para o componente principal 'App'.
@@ -58,6 +59,7 @@ function App() {
                 <Route element={<ProtectedRoutes session={session} />}>
                     <Route path="/" element={<HomePage />} />
                     <Route path="/transactions" element={<TransactionsPage />} />
+                    <Route path="/relatorio" element={<RelatorioMensal />} />
                     {/* Adicione outras rotas protegidas aqui */}
                 </Route>
             </Routes>
