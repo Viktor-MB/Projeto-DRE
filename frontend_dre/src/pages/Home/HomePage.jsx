@@ -5,9 +5,7 @@ import styles from './HomePage.module.css';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line } from 'recharts';
 
 
-const formatCurrency = (value) => {
-    return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
-};
+const formatarMoeda = (valor) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(valor);
 
 export default function HomePage() {
     const [summary, setSummary] = useState({ total_income: 0, total_expense: 0 });
@@ -82,16 +80,16 @@ export default function HomePage() {
                 <section className={styles.summaryCards}>
                     <div className={styles.card}>
                         <h3>Receitas (Mês)</h3>
-                        <p className={styles.income}>+ {formatCurrency(summary.total_income)}</p>
+                        <p className={styles.income}>+ {formatarMoeda(summary.total_income)}</p>
                     </div>
                     <div className={styles.card}>
                         <h3>Despesas (Mês)</h3>
-                        <p className={styles.expense}>- {formatCurrency(summary.total_expense)}</p>
+                        <p className={styles.expense}>- {formatarMoeda(summary.total_expense)}</p>
                     </div>
                     <div className={styles.card}>
                         <h3>Saldo (Mês)</h3>
                         <p style={{ color: saldoDoMes >= 0 ? '#2ecc71' : '#e74c3c' }}>
-                            {formatCurrency(saldoDoMes)}
+                            {formatarMoeda(saldoDoMes)}
                         </p>
                     </div>
                 </section>
@@ -119,8 +117,8 @@ export default function HomePage() {
                                     <LineChart data={monthlyData} margin={{ top: 10, right: 10, left: 0, bottom: 5 }}>
                                         <CartesianGrid strokeDasharray="3 3" />
                                         <XAxis dataKey="month" />
-                                        <YAxis tickFormatter={formatCurrency} />
-                                        <Tooltip formatter={formatCurrency} />
+                                        <YAxis tickFormatter={formatarMoeda} />
+                                        <Tooltip formatter={formatarMoeda} />
                                         <Line type="monotone" dataKey="income" stroke="#6ee7b7" name="Receitas" strokeWidth={2} dot={{ r: 3 }} />
                                         <Line type="monotone" dataKey="expense" stroke="#fca5a5" name="Despesas" strokeWidth={2} dot={{ r: 3 }} />
                                     </LineChart>
@@ -138,38 +136,6 @@ export default function HomePage() {
                                     </BarChart>
                                 </ResponsiveContainer>
                             </div>
-                            {/* Gráfico de Pizza */}
-                            <div className={styles.pieChartBox}>
-                                <ResponsiveContainer width={160} height={160}>
-                                    <PieChart>
-                                        <Pie
-                                            data={pieData}
-                                            dataKey="value"
-                                            nameKey="name"
-                                            cx="50%"
-                                            cy="50%"
-                                            outerRadius={60}
-                                            label={false}
-                                            stroke="#fff"
-                                            strokeWidth={2}
-                                        >
-                                            {pieData.map((entry, idx) => (
-                                                <Cell key={`cell-${idx}`} fill={pieColors[idx % pieColors.length]} />
-                                            ))}
-                                        </Pie>
-                                        <Tooltip />
-                                    </PieChart>
-                                </ResponsiveContainer>
-                                {/* Legenda customizada */}
-                                <div className={styles.pieLegend}>
-                                    {pieData.map((entry, idx) => (
-                                        <span key={entry.name} className={styles.pieLegendItem}>
-                                            <span className={styles.pieLegendColor} style={{ background: pieColors[idx % pieColors.length] }}></span>
-                                            {entry.name}
-                                        </span>
-                                    ))}
-                                </div>
-                            </div>
                         </div>
                     </section>
                     <section className={styles.dashboardTransactions}>
@@ -183,7 +149,7 @@ export default function HomePage() {
                                     </span>
                                     <strong className={t.type === 'income' ? styles.income : styles.expense}>
                                         {t.type === 'expense' && '- '}
-                                        {formatCurrency(t.amount)}
+                                        {formatarMoeda(t.amount)}
                                     </strong>
                                 </li>
                             )) : <p>Nenhuma transação registrada ainda.</p>}

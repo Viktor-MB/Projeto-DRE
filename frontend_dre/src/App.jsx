@@ -11,11 +11,7 @@ import HomePage from './pages/Home/HomePage.jsx';
 import TransactionsPage from './pages/Transactions/TransactionsPage.jsx';
 import RelatorioMensal from './pages/RelatorioMensal/RelatorioMensal.jsx';
 
-/**
- * O controle da sessão agora foi movido para o componente principal 'App'.
- * Este componente 'ProtectedRoutes' agora apenas recebe a sessão como prop
- * e decide se renderiza o Layout (e suas páginas filhas) ou redireciona para o login.
- */
+
 function ProtectedRoutes({ session }) {
     if (!session) {
         return <Navigate to="/login" />;
